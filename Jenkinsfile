@@ -76,7 +76,7 @@ def initDeployEnv() {
 
     // def TEST_LEVEL='RunLocalTests'
    def TEST_LEVEL='NoTestRun'
-   //ternary operator for which url to use
+   //ternary operator for which url to use-
    def SF_INSTANCE_URL
   
    if (SANDBOX) {
