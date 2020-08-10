@@ -97,8 +97,8 @@ def initDeployEnv() {
    // resulting auth logic pending on branc name
 
     // result
-   echo "auth URL below ##############################"
-   echo SF_AUTH_URL
+//    echo "auth URL below ##############################"
+//    echo SF_AUTH_URL
 
     echo "env.BRANCH_NAME below ##############################"
    echo env.BRANCH_NAME
