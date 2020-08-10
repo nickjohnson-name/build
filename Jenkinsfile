@@ -11,8 +11,8 @@ node {
         echo 'mkdir deploy-sf'
         echo 'Current GIT Commit : ${env.GIT_COMMIT}'
         echo 'Previous Known Successful GIT Commit : ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}'
-        def newGit = git diff  ${env.GIT_COMMIT} ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}
-        echo newGit
+        //def newGit = git diff  ${env.GIT_COMMIT} ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}
+        //echo newGit
         // for(currentDiff : newGit.line.separatorDelimiter) {
         //    if(currentDiff != null) {
         //        if(currentDiff == 'force-app/') {
