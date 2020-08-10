@@ -6,6 +6,7 @@ node {
         // runspecified sfdx run test command based on if a unit
         // of code changes, its "related" unit testing should be
         // included and ran as part of the build.
+        /*
         delete deploy-sf
         mkdir deploy-sf
         echo 'Current GIT Commit : ${env.GIT_COMMIT}'
@@ -25,13 +26,17 @@ node {
                }
            }                 
         }
+        */
+        echo 'BUILD'
 
         
     }
     stage('Test') { 
         // 
+        echo 'TEST'
     }
     stage('Deploy') { 
         // 
+        echo 'Deploy'
     }
 }
