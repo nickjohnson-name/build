@@ -6,6 +6,7 @@ node {
         // runspecified sfdx run test command based on if a unit
         // of code changes, its "related" unit testing should be
         // included and ran as part of the build.
+        ${env}
         echo 'sh ll'
         // delete deploy-sf
         echo 'mkdir deploy-sf'
