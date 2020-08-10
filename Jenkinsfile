@@ -7,7 +7,7 @@ node {
         // of code changes, its "related" unit testing should be
         // included and ran as part of the build.
         echo 'sh ll'
-        delete deploy-sf
+        // delete deploy-sf
         mkdir deploy-sf
         echo 'Current GIT Commit : ${env.GIT_COMMIT}'
         echo 'Previous Known Successful GIT Commit : ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}'
