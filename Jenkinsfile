@@ -92,7 +92,7 @@ def initDeployEnv() {
        checkout scm
    }
    sh 'ls subDir'
-   sh "ls"
+   // sh "ls"
 
    // resulting auth logic pending on branc name
 
