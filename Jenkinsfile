@@ -5,7 +5,7 @@ node {
         // this naming convention are picked up in a 
         // runspecified sfdx run test command based on if a unit
         // of code changes, its "related" unit testing should be
-        // included and ran as part of the build.-
+        // included and ran as part of the build.
         delete deploy-sf
         mkdir deploy-sf
         echo 'Current GIT Commit : ${env.GIT_COMMIT}'
