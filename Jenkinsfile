@@ -85,8 +85,8 @@ def initDeployEnv() {
        "https://login.salesforce.com"
    }
 
-   def toolbelt = tool 'toolbelt'
-   echo toolbelt
+   def sfdx-j = tool 'sfdx'
+   echo sfdx-j
 
    dir('subDir') {
        checkout scm
