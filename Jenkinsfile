@@ -85,8 +85,8 @@ def initDeployEnv() {
        "https://login.salesforce.com"
    }
 
-   def sfdx-j = tool 'sfdx'
-   echo sfdx-j
+   def varsfdx = tool 'sfdx'
+   echo varsfdx
 
    dir('subDir') {
        checkout scm
