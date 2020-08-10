@@ -103,9 +103,9 @@ def initDeployEnv() {
     echo "env.BRANCH_NAME below ##############################"
    echo env.BRANCH_NAME
 
-   writeFile file: 'authjenkinsci.txt', text: SF_AUTH_URL
-   sh 'ls -l authjenkinsci.txt'
-   sh 'cat authjenkinsci.txt'
+//    writeFile file: 'authjenkinsci.txt', text: SF_AUTH_URL
+//    sh 'ls -l authjenkinsci.txt'
+//    sh 'cat authjenkinsci.txt'
 
 
                            
