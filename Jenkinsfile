@@ -8,7 +8,7 @@ node {
         // included and ran as part of the build.
         echo 'sh ll'
         // delete deploy-sf
-        mkdir deploy-sf
+        echo 'mkdir deploy-sf'
         echo 'Current GIT Commit : ${env.GIT_COMMIT}'
         echo 'Previous Known Successful GIT Commit : ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}'
         def newGit = git diff  ${env.GIT_COMMIT} ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}
