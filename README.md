@@ -2,10 +2,10 @@
 build
 
 
+# https://github.com/jenkinsci/pipeline-examples
 
 
-
-// https://www.jenkins.io/doc/book/pipeline/pipeline-best-practices/#avoiding-very-large-shared-libraries
+# https://www.jenkins.io/doc/book/pipeline/pipeline-best-practices/
 
 
     /*
@@ -240,3 +240,188 @@ BITBUCKET_COMMON_CREDS - contains a username and a password separated by a colon
 BITBUCKET_COMMON_CREDS_USR - an additional variable containing the username component only.
 
 BITBUCKET_COMMON_CREDS_PSW - an additional variable containing the password component only.
+
+
+
+
+
+The following code snippet shows the example Pipeline in its entirety:
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent {
+        // Define agent details here
+    }
+    stages {
+        stage('Example stage 1') {
+            environment {
+                BITBUCKET_COMMON_CREDS = credentials('jenkins-bitbucket-common-creds')
+            }
+            steps {
+                // 
+            }
+        }
+        stage('Example stage 2') {
+            steps {
+                // 
+            }
+        }
+    }
+}
+
+
+
+	The following credential environment variables (defined in this Pipeline’s environment directive) are available within this stage’s steps and can be referenced using the syntax:
+$BITBUCKET_COMMON_CREDS
+
+$BITBUCKET_COMMON_CREDS_USR
+
+$BITBUCKET_COMMON_CREDS_PSW
+
+
+Secret files
+A secret file is a credential which is stored in a file and uploaded to Jenkins. Secret files are used for credentials that are:
+
+too unwieldy to enter directly into Jenkins, and/or
+
+in binary format, such as a GPG file.
+
+
+In this example, we use a Kubernetes config file that has been configured as a secret file credential named my-kubeconfig.
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent {
+        // Define agent details here
+    }
+    environment {
+        // The MY_KUBECONFIG environment variable will be assigned
+        // the value of a temporary file.  For example:
+        //   /home/user/.jenkins/workspace/cred_test@tmp/secretFiles/546a5cf3-9b56-4165-a0fd-19e2afe6b31f/kubeconfig.txt
+        MY_KUBECONFIG = credentials('my-kubeconfig')
+    }
+    stages {
+        stage('Example stage 1') {
+            steps {
+                sh("kubectl --kubeconfig $MY_KUBECONFIG get pods")
+            }
+        }
+    }
+}
+
+
+use
+withCredentials(
+
+    for ssh sessions
+
+
+****Combining credentials in one step
+Using the Snippet Generator, you can make multiple credentials available within a single withCredentials( …​ ) { …​ } step by doing the following:
+
+
+
+*** Parameters
+
+Assuming that a String parameter named "Greeting" has been configuring in the Jenkinsfile, it can access that parameter via ${params.Greeting}:
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    parameters {
+        string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo "${params.Greeting} World!"
+            }
+        }
+    }
+}
+
+
+(***** Handling failure)
+
+Handling failure
+Declarative Pipeline supports robust failure handling by default via its post section which allows declaring a number of different "post conditions" such as: always, unstable, success, failure, and changed. The Pipeline Syntax section provides more detail on how to use the various post conditions.
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    stages {
+        stage('Test') {
+            steps {
+                sh 'make check'
+            }
+        }
+    }
+    post {
+        always {
+            junit '**/target/*.xml'
+        }
+        failure {
+            mail to: team@example.com, subject: 'The Pipeline failed :('
+        }
+    }
+}
+
+
+sAn alternative way of handling this, which preserves the early-exit behavior of failures in Pipeline, while still giving junit the chance to capture test reports, is to use a series of try/finally blocks:
+
+
+Using multiple agents
+In all the previous examples, only a single agent has been used. This means Jenkins will allocate an executor wherever one is available, regardless of how it is labeled or configured. Not only can this behavior be overridden, but Pipeline allows utilizing multiple agents in the Jenkins environment from within the same Jenkinsfile, which can helpful for more advanced use-cases such as executing builds/tests across multiple platforms.
+
+In the example below, the "Build" stage will be performed on one agent and the built results will be reused on two subsequent agents, labelled "linux" and "windows" respectively, during the "Test" stage.
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent none
+    stages {
+        stage('Build') {
+            agent any
+            steps {
+                checkout scm
+                sh 'make'
+                stash includes: '**/target/*.jar', name: 'app' 
+            }
+        }
+        stage('Test on Linux') {
+            agent { 
+                label 'linux'
+            }
+            steps {
+                unstash 'app' 
+                sh 'make check'
+            }
+            post {
+                always {
+                    junit '**/target/*.xml'
+                }
+            }
+        }
+        stage('Test on Windows') {
+            agent {
+                label 'windows'
+            }
+            steps {
+                unstash 'app'
+                bat 'make check' 
+            }
+            post {
+                always {
+                    junit '**/target/*.xml'
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
