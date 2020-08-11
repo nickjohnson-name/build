@@ -1,6 +1,5 @@
 # build
-build test
-
+build
 
 
 # https://github.com/jenkinsci/pipeline-examples
