@@ -1,13 +1,14 @@
 # build
 build
-
+sfdx force:alias:list
+sfdx force:org:display -u Hub_Org --verbose
 
 # https://github.com/jenkinsci/pipeline-examples
 
 
 # https://www.jenkins.io/doc/book/pipeline/pipeline-best-practices/
 
-
+// NULL checks example: auth url variable if null
     /*
 
         *Making sure to use Groovy code in Pipelines as glue
