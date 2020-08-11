@@ -163,3 +163,80 @@ pipeline {
         }
     }
 }
+
+
+
+
+Setting environment variables
+Setting an environment variable within a Jenkins Pipeline is accomplished differently depending on whether Declarative or Scripted Pipeline is used.
+
+Declarative Pipeline supports an environment directive, whereas users of Scripted Pipeline must use the withEnv step.
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    environment { 
+        CC = 'clang'
+    }
+    stages {
+        stage('Example') {
+            environment { 
+                DEBUG_FLAGS = '-g'
+            }
+            steps {
+                sh 'printenv'
+            }
+        }
+    }
+}
+
+
+
+
+
+
+Setting environment variables dynamically
+Environment variables can be set at run time and can be used by shell scripts (sh), Windows batch scripts (bat) and PowerShell scripts (powershell). Each script can either returnStatus or returnStdout. More information on scripts.
+
+Below is an example in a declarative pipeline using sh (shell) with both returnStatus and returnStdout.
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any 
+    environment {
+        // Using returnStdout
+        CC = """${sh(
+                returnStdout: true,
+                script: 'echo "clang"'
+            )}""" 
+        // Using returnStatus
+        EXIT_STATUS = """${sh(
+                returnStatus: true,
+                script: 'exit 1'
+            )}"""
+    }
+    stages {
+        stage('Example') {
+            environment {
+                DEBUG_FLAGS = '-g'
+            }
+            steps {
+                sh 'printenv'
+            }
+        }
+    }
+}
+
+
+
+
+environment {
+    BITBUCKET_COMMON_CREDS = credentials('jenkins-bitbucket-common-creds')
+}
+this actually sets the following three environment variables:
+
+BITBUCKET_COMMON_CREDS - contains a username and a password separated by a colon in the format username:password.
+
+BITBUCKET_COMMON_CREDS_USR - an additional variable containing the username component only.
+
+BITBUCKET_COMMON_CREDS_PSW - an additional variable containing the password component only.
